@@ -8,6 +8,7 @@
 * [numeric](https://github.com/downdemo/Effective-STL/blob/master/reference/numeric.md)
 * [string类的六个查找函数](https://github.com/downdemo/Effective-STL/blob/master/reference/string%E7%B1%BB%E7%9A%84%E5%85%AD%E4%B8%AA%E6%9F%A5%E6%89%BE%E5%87%BD%E6%95%B0.md)
 * [C++17 STL](https://github.com/downdemo/Effective-STL/blob/master/reference/C%2B%2B17%20STL.md)
+* [std::sort源码](https://github.com/downdemo/Effective-STL/blob/master/reference/std::sort%E6%BA%90%E7%A0%81.md)
 
 ## [1. 容器](https://github.com/downdemo/Effective-STL/blob/master/content/01%20%E5%AE%B9%E5%99%A8.md)
 * 01 仔细选择你的容器
