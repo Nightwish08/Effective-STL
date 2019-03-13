@@ -57,19 +57,19 @@ if (s.size() < s.capacity()) {
   * 依赖引用计数的string实现包含了这个值的引用计数
 * 实现A中，每个string对象包含一个配置器的拷贝，字符串的大小，容量，和一个指向包含引用计数和字符串值的动态分配的缓冲区的指针。这里一个使用默认配置器的字符串对象是指针大小的四倍，对于一个自定义的配置器，string对象会随配置器对象的增大而变大
 
-![实现A](https://upload-images.jianshu.io/upload_images/5587614-1f4e2b41be9a52d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](../images/2-1.png)
 
 * 实现B的string对象和指针一样大，因为在结构体中只包含一个指针。这里仍然假设使用默认配置器。正如实现A，如果使用自定义配置器，这个string对象的大小会增加大约配置器对象的大小。实现B中，使用默认配置器不占用空间，这归功于这里用了一个在实现A中没有的使用优化。B的string指向的对象包含字符串的大小、容量和引用计数，以及容纳字符串值的动态分配缓冲区的指针，也包含在多线程系统中与并发控制有关的一些附加数据，用于并发控制的数据是一个指针大小的6倍
 
-![实现B](https://upload-images.jianshu.io/upload_images/5587614-5e257b13586c41ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](../images/2-2.png)
 
 * 实现C的string对象总是等于指针的大小，但是这个指针指向一个包含所有与string相关的东西的动态分配缓冲器：它的大小、容量、引用计数和值。没有per-object allocator的支持。缓冲区也容纳一些关于值可共享性的数据，我们在这里不考虑这个主题，标记为“X”
 
-![实现C](https://upload-images.jianshu.io/upload_images/5587614-94d5a640a33d631b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](../images/2-3.png)
 
 * 实现D的string对象是一个指针大小的七倍（仍然假设使用了默认配置器）。这个实现没有使用引用计数，但每个string包含了一个足以表现最多15个字符的字符串值的内部缓冲区，因此小的字符串可以被整个保存在string对象中，这是一种优化策略，当一个string的容量超过15时，缓冲器的第一部分被用作指向动态分配内存的一个指针，而字符串的值存放在那块内存中。在VS中空string的size就是15，sizeof(string)是28
 
-![实现D](https://upload-images.jianshu.io/upload_images/5587614-cb7b91ba7477f92f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](../images/2-4.png)
 
 * 实现D没有动态分配，实现A和C下一次，实现B下两次（一次是string对象指向的对象，一次是那个对象指向的字符缓冲区），因此新字符串值的建立可能需要0、1或2次动态分配。如果关心动态分配和回收内存的次数，或伴随这样分配的内存开销，避开实现B
 
