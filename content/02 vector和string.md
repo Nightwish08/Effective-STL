@@ -165,5 +165,5 @@ public:
     ...
 }
 ```
-* 而这样，代码不能编译的原因就很明显了，因为&v[0]是vector<bool>::reference*类型而非bool*
+* 而这样，代码不能编译的原因就很明显了，因为&v[0]是vector<bool>::reference\*类型而非bool\*
 * vector<bool>存在于标准中，而它并不是一个容器，标准库提供了两个替代品，分别是deque<bool>和bitset。deque<bool>是一个STL容器，它保存真正的bool值。bitset不是一个STL容器，大小（元素数量）在编译期固定，因此它不支持插入和删除元素，但就像vector<bool>，它使用一个压缩的表示法，使得它包含的每个值只占用一比特，提供vector<bool>特有的flip成员函数，还有一系列其他操作位集（collection of bits）所特有的成员函数。如果不在乎没有迭代器和动态改变大小，可以使用bitset
