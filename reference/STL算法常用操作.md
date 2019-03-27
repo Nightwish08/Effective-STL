@@ -13,10 +13,14 @@ string s7 = str.substr(pos); // world
 * 对string使用find返回size_t而非迭代器，对string使用erase参数可以不是迭代器
 ```cpp
 string s("123456");
-auto pos1 = s.find("2");
-auto pos2 = s.find("5");
-s.erase(pos1, pos2 - pos1);
-cout << s; // 156
+auto pos1 = s.find("2"); // pos1 = 1
+auto pos2 = s.find("5"); // pos2 = 4
+
+// 根据找到的点切割为两部分
+string sub1 = s.substr(0, pos1); // sub1 = "1"
+string sub2 = s.substr(pos1 + 1, s.size() - 1 - pos1); // sub2 = "3456"
+
+s.erase(pos1, pos2 - pos1); // s = "156"
 ```
 * remove-erase删除指定区间内的某个元素
 ```cpp
