@@ -30,7 +30,7 @@
 * 15 小心string实现的多样性
 * 16 如何将vector和string的数据传给遗留的API
 * 17 使用“交换技巧”来修整过剩容量
-* 18 避免使用vector<bool>
+* 18 避免使用vector\<bool\>
 
 ## [3. 关联容器](https://github.com/downdemo/Effective-STL/blob/master/content/03%20%E5%85%B3%E8%81%94%E5%AE%B9%E5%99%A8.md)
 * 19 了解相等和等价的区别
@@ -62,7 +62,7 @@
 * 39 用纯函数做判断式
 * 40 使仿函数类可适配
 * 41 了解使用ptr_fun、mem_fun和mem_fun_ref的原因
-* 42 确定less<T>表示operator<
+* 42 确定less\<T\>表示operator<
 
 ## [7. 使用STL编程](https://github.com/downdemo/Effective-STL/blob/master/content/07%20%E4%BD%BF%E7%94%A8STL%E7%BC%96%E7%A8%8B.md)
 * 43 尽量用算法调用代替手写循环
