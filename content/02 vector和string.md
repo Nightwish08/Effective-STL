@@ -154,8 +154,8 @@ T *p = &c[0]; // 无论operator[]返回什么都可以用这个地址初始化�
 vector<bool> v;
 bool *pb = &v[0]; // 用vector<bool>::operator[]返回值的的地址初始化一个bool*
 ```
-* 但它不能编译，vector\<bool\>是一个伪容器，并不保存真正的bool，而是打包bool以节省空间。在一个典型的实现中，每个保存在“vector”中的“bool”占用一个单独的bit，而一个8bit的字节将容纳8个bool。在内部，vector\<bool\>使用了与位域等价的思想来表示它假装容纳的bool\
-* ，vector\<bool\>::operator[]需要返回指向一个比特的引用，而并不存在这样的东西。为了解决这个难题，vector\<bool\>::operator[]返回一个对象，其行为类似于比特的引用，也称为代理对象
+* 但它不能编译，vector\<bool\>是一个伪容器，并不保存真正的bool，而是打包bool以节省空间。在一个典型的实现中，每个保存在“vector”中的“bool”占用一个单独的bit，而一个8bit的字节将容纳8个bool。在内部，vector\<bool\>使用了与位域等价的思想来表示它假装容纳的bool
+* vector\<bool\>::operator[]需要返回指向一个比特的引用，而并不存在这样的东西。为了解决这个难题，vector\<bool\>::operator[]返回一个对象，其行为类似于比特的引用，也称为代理对象
 ```cpp
 template <typename Allocator>
 vector<bool, Allocator> {
