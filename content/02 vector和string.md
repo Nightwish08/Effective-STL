@@ -7,14 +7,14 @@
   * 把所有元素从容器的旧内存拷贝到新内存
   * 销毁旧内存中的对象
   * 回收旧内存
-* resize把size改为n，n<size则尾部元素被销毁，否则重新分配，默认构造的新元素会添加到容器尾部。reserve把capacity改为n，如果n<capacity，对vector这个调用什么都不做，string把容量减少为size和n中大的数，但size不变
+* resize把size改为n，n\<size则尾部元素被销毁，否则重新分配，默认构造的新元素会添加到容器尾部。reserve把capacity改为n，如果n\<capacity，对vector这个调用什么都不做，string把容量减少为size和n中大的数，但size不变
 ```cpp
 size();
 capacity();
 resize(Container::size_type n);
 reserve(Container::size_type n);
 ```
-* 假定不使用reserve建立一个容纳1-1000vector<int>，循环过程中将会导致2到10次重新分配（1000约等于2^10）
+* 假定不使用reserve建立一个容纳1-1000vector\<int\>，循环过程中将会导致2到10次重新分配（1000约等于2^10）
 ```cpp
 vector<int> v;
 for (int i = 1; i <= 1000; ++i) v.push_back(i);
@@ -48,7 +48,7 @@ if (s.size() < s.capacity()) {
 ```
 
 > ## 15 小心string实现的多样性
-* string对象的大小可能是1到至少7倍char*指针的大小，为了理解存在差别的原因，必须知道string可能存的数据和保存的位置
+* string对象的大小可能是1到至少7倍char\*指针的大小，为了理解存在差别的原因，必须知道string可能存的数据和保存的位置
 * 实际上每个string实现都容纳了下面的信息，不同的string实现以不同的方式把这些信息放在一起
   * 字符串的大小
   * 容纳字符串字符的内存容量
@@ -85,7 +85,7 @@ if (!v.empty()) {
     doSomething(&v[0], v.size());
 }
 ```
-* begin的返回类型是iterator，而不是一个指针，需要一个指向vector内部数据的指针时绝不该使begin，如果键入v.begin()，就应该键入&*v.begin()，而这产生和&v[0]相同的指针，却显得更晦涩
+* begin的返回类型是iterator，而不是一个指针，需要一个指向vector内部数据的指针时绝不该使begin，如果键入v.begin()，就应该键入&\*v.begin()，而这产生和&v[0]相同的指针，却显得更晦涩
 * 对string来说则不用考虑，因为string长度为0也能工作，c_str()将返回一个指向null字符的指针，但这会被解释为字符串结束，对char*有影响
 ```cpp
 void doSomething(const char *pString);
@@ -142,20 +142,20 @@ vector<Contestant>().swap(v); // 清除v并最小化容量
 string().swap(s); // 清除s并最小化容量
 ```
 
-> ## 18 避免使用vector<bool>
-* vector<bool>只有两个问题。第一，它不是一个STL容器。第二，它并不容纳bool
+> ## 18 避免使用vector\<bool\>
+* vector\<bool\>只有两个问题。第一，它不是一个STL容器。第二，它并不容纳bool
 * STL容器就必须满足所有在C++标准23.1节中列出的容器必要条件。这些要求中有这样一条：如果c是一个T类型对象的容器，且c支持operator[]，那么以下代码必须能够编译
 ```cpp
 T *p = &c[0]; // 无论operator[]返回什么都可以用这个地址初始化一个T*
 ```
-* 换句话说，如果用operator[]来得到Container<T>中的一个T对象，可以通过取它的地址而获得指向那
+* 换句话说，如果用operator[]来得到Container\<T\>中的一个T对象，可以通过取它的地址而获得指向那
 个对象的指针。因此如果vector<bool>是一个容器，以下代码必须能够编译
 ```cpp
 vector<bool> v;
 bool *pb = &v[0]; // 用vector<bool>::operator[]返回值的的地址初始化一个bool*
 ```
-* 但它不能编译，vector<bool>是一个伪容器，并不保存真正的bool，而是打包bool以节省空间。在一个典型的实现中，每个保存在“vector”中的“bool”占用一个单独的bit，而一个8bit的字节将容纳8个bool。在内部，vector<bool>使用了与位域等价的思想来表示它假装容纳的bool
-* ，vector<bool>::operator[]需要返回指向一个比特的引用，而并不存在这样的东西。为了解决这个难题，vector<boo>::operator[]返回一个对象，其行为类似于比特的引用，也称为代理对象
+* 但它不能编译，vector\<bool\>是一个伪容器，并不保存真正的bool，而是打包bool以节省空间。在一个典型的实现中，每个保存在“vector”中的“bool”占用一个单独的bit，而一个8bit的字节将容纳8个bool。在内部，vector\<bool\>使用了与位域等价的思想来表示它假装容纳的bool\
+* ，vector\<bool\>::operator[]需要返回指向一个比特的引用，而并不存在这样的东西。为了解决这个难题，vector\<bool\>::operator[]返回一个对象，其行为类似于比特的引用，也称为代理对象
 ```cpp
 template <typename Allocator>
 vector<bool, Allocator> {
@@ -165,5 +165,5 @@ public:
     ...
 }
 ```
-* 而这样，代码不能编译的原因就很明显了，因为&v[0]是vector<bool>::reference\*类型而非bool\*
-* vector<bool>存在于标准中，而它并不是一个容器，标准库提供了两个替代品，分别是deque<bool>和bitset。deque<bool>是一个STL容器，它保存真正的bool值。bitset不是一个STL容器，大小（元素数量）在编译期固定，因此它不支持插入和删除元素，但就像vector<bool>，它使用一个压缩的表示法，使得它包含的每个值只占用一比特，提供vector<bool>特有的flip成员函数，还有一系列其他操作位集（collection of bits）所特有的成员函数。如果不在乎没有迭代器和动态改变大小，可以使用bitset
+* 而这样，代码不能编译的原因就很明显了，因为&v[0]是vector\<bool\>::reference\*类型而非bool\*
+* vector\<bool\>存在于标准中，而它并不是一个容器，标准库提供了两个替代品，分别是deque\<bool\>和bitset。deque\<bool\>是一个STL容器，它保存真正的bool值。bitset不是一个STL容器，大小（元素数量）在编译期固定，因此它不支持插入和删除元素，但就像vector\<bool\>，它使用一个压缩的表示法，使得它包含的每个值只占用一比特，提供vector\<bool\>特有的flip成员函数，还有一系列其他操作位集（collection of bits）所特有的成员函数。如果不在乎没有迭代器和动态改变大小，可以使用bitset
