@@ -1,3 +1,15 @@
+* 把容器数据映射到指定范围[0, normVal]后添加到新容器
+```cpp
+void normalization(const std::vector<double>& v, std::vector<double>& normVector, double normVal)
+{
+    if (!normVector.empty()) normVector.clear();
+    normVector.reserve(v.size());
+    //const auto[minIt, maxIt]( std::minmax_element(std::begin(v), std::end(v)));
+    const auto maxIt = std::max_element(std::begin(v), std::end(v));
+    std::transform(std::begin(v), std::end(v), std::back_inserter(normVector),
+        [&](double x) { return x * normVal / *maxIt; });
+}
+```
 * 查找string s中某个字符x出现次数
 ```cpp
 count(s.begin(), s.end(), x);
