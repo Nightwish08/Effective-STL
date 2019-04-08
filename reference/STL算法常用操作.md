@@ -1,4 +1,4 @@
-* 把容器数据映射到指定范围[0, normVal]后添加到新容器
+* 把容器数据映射到指定范围`[0, normVal]`后添加到新容器
 ```cpp
 void normalization(const std::vector<double>& v, std::vector<double>& normVector, double normVal)
 {
